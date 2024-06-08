@@ -1,0 +1,91 @@
+{% extends "base.html" %}
+{% block dashboard %}{% endblock dashboard %}
+{% block title %}Recommendations{% endblock title %}
+{% block recommendations %}
+<div class="container">
+    <style>
+        /* General container styles */
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+/* Product container styles */
+.product-container {
+    display: flex;
+    margin-top: 10px;
+    align-items: center;
+}
+
+.product-image {
+    border: 4px solid gold;
+    height: 200px;
+    widtht: 200px;
+    margin-right: 20px;
+}
+
+/* Review box styles */
+.rev-box {
+    border: 3px solid white;
+    border-radius: 5px;
+    padding: 10px;
+    width: 250px;
+    margin-left: 40px;
+    height: 350px; 
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+/* Tag styles */
+.tags {
+    display: flex;
+    flex-wrap: wrap;
+    margin-top: 10px;
+}
+
+.tag {
+    background-color: #f2f2f2;
+    color: #333;
+    padding: 5px 10px;
+    border-radius: 3px;
+    margin-right: 5px;
+    margin-bottom: 5px;
+}
+    </style>
+    <h1>API Data</h1>
+    {% if data_list %}
+    <ul>
+        {% for data in data_list %}
+        {% for item in data %}
+        <div class="product-container">
+            <a href="{% url 'prodView' myid=item.id %}">
+                <img class="product-image" src="{{ item.p_img}}">
+            </a>
+            <div class="rev-box">
+                <div>
+                    <p>Item name: {{ item.p_name}}</p>
+                    <p>Item Colour: {{ item.p_color }}</p>
+                    {% if item.p_desc != '0' %}
+                        <p>{{ item.p_desc }}</p>
+                    {% endif %}
+                    <div class="tags">
+                        <span class="tag">{{ item.sub_category.sname }}</span>
+                        {% if item.sub_category.sname != item.sub_category.category.name %}
+                        <span class="tag">{{ item.sub_category.category.name }}</span>
+                        {% endif %}
+                        <span class="tag">{{ item.p_color }}</span>
+                        <!-- Add more tags if needed -->
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+        {% endfor %}
+    </ul>
+    {% else %}
+    <p>No data available.</p>
+    {% endif %}
+</div>
+{% endblock recommendations %}

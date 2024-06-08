@@ -1,0 +1,96 @@
+{% extends "base.html" %}
+{% block dashboard %}{% endblock dashboard %}
+{% block title %}Recommendations{% endblock title %}
+{% block recommendations %}
+
+
+
+{% for data in data_list %}
+<div class="fashion_section">
+   <style>
+   #main_slider{{forloop.counter}} a.carousel-control-next {
+      right: 615px;
+      top: 105%;
+  }
+  
+  #main_slider{{forloop.counter}} a.carousel-control-prev {
+      left: 615px;
+      top: 105%;
+  }
+  
+  #main_slider{{forloop.counter}} .carousel-control-next,
+  #main_slider{{forloop.counter}} .carousel-control-prev {
+      width: 55px;
+      height: 55px;
+      background-color: #30302e;
+      opacity: 1;
+      font-size: 30px;
+      color: #ffffff;
+  }
+  
+  #main_slider{{forloop.counter}} .carousel-control-next:focus,
+  #main_slider{{forloop.counter}} .carousel-control-next:hover,
+  #main_slider{{forloop.counter}} .carousel-control-prev:focus,
+  #main_slider{{forloop.counter}} .carousel-control-prev:hover {
+      color: #fff;
+      background-color: #24103b;
+  }
+</style>
+   <div id="main_slider{{forloop.counter}}" class="carousel slide" data-ride="carousel">
+      <div class="carousel-inner">
+         <div class="carousel-item active">
+            <div class="container">
+               
+               <h1 class="fashion_taital">{{data.p_category}}</h1>
+               <div class="fashion_section_2">
+                  <div class="row">
+                     
+                     {% for data in data_list %}
+                     {% for item in data %}
+                           <div class="col-lg-4 col-sm-4">
+                               <div class="box_main">
+                                   <h4 class="shirt_text">{{ item.p_name }}</h4>
+                                   <p class="price_text">Price  <span style="color: #262626;">₹{{ item.p_price }}</span></p>
+                                   <div class="tshirt_img"><a href="{% url 'prodView' myid=item.id %}">
+                                    <img class="product-image" src="{{ item.p_img}}">
+                                </a></div>
+                                   <div class="btn_main">
+                                    <!--Buy now-->
+                                    <div class="btn btn-secondary"  id="pr{{item.id}}"><a style="color:white"; href="{% url 'checkout' myid=item.id %}">Buy Now</a></div>
+                                   
+                                    <!--Add to cart-->   
+                                       <div class="seemore_bt cart" id="pr{{item.id}}"><a href="{% url 'add_to_cart' item.id %}">Add to Cart</a></div>
+                                       <!--<div class="seemore_bt cart" id="pr{{product.id}}"><a href="#">pr{{product.id}}</a></div>
+                                       -->
+                                       </div>
+                        </div>
+                     </div>
+                     {% if forloop.counter|divisibleby:3 and forloop.counter > 0 and not forloop.last %}
+                                 </div>
+                              </div>
+                           </div>
+                        </div>
+                        <div class="carousel-item">
+                           <div class="container">
+                              <h1 class="fashion_taital">{{item.p_category}}</h1>
+                              <div class="fashion_section_2">
+                                 <div class="row">
+                     {% endif %}
+                     {%endfor%}
+                     
+                  </div>
+               </div>
+            </div>
+         </div>
+      </div>
+      <a class="carousel-control-prev" href="#main_slider{{forloop.counter}}" role="button" data-slide="prev">
+      <i class="fa fa-angle-left"></i>
+      </a>
+      <a class="carousel-control-next" href="#main_slider{{forloop.counter}}" role="button" data-slide="next">
+      <i class="fa fa-angle-right"></i>
+      </a>
+   </div>
+</div>
+{% endfor %}
+{% endfor %}
+{% endblock recommendations %}
